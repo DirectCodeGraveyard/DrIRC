@@ -41,13 +41,13 @@ public class List(T) {
      * Safe version to the array index overload
      */
     public T get(long i) {
-        if ((i < 0) || (i > contents.length))
+        if ((i < 0) || (i >= contents.length))
             return null;
         return contents[i];
     }
 
     public T remove(long i) {
-        if ((i < 0) || (i > contents.length))
+        if ((i < 0) || (i >= contents.length))
             return null;
         T temp = contents[i];
         contents[i] = null;
