@@ -38,7 +38,7 @@ public class List(T) {
     }
 
     /**
-     * Safe version to the array index overload
+     * Safe collection getter (array-bounds safe)
      */
     public T get(long i) {
         if ((i < 0) || (i >= contents.length))
@@ -64,7 +64,10 @@ public class List(T) {
         return null;
     }
 
+    /**
+     * Array index overload (array-bounds safe)
+     */
     T opIndex(size_t index) {
-        return contents[index];
+        return get(index);
     }
 }
