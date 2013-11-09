@@ -35,8 +35,10 @@ public class IRCBot {
 
     private {
         IRCConfig config;
-        TcpSocket socket;
 
+        // Socket data
+        TcpSocket socket;
+        char[] chars = null;
         bool connected = false;
     }
 
@@ -96,6 +98,7 @@ public class IRCBot {
         if (isConnected)
             return;
         socket = new TcpSocket(config.address);
+        socket.blocking = false;
         connected = true;
 
         if (serverPassword)
@@ -140,7 +143,7 @@ public class IRCBot {
     /**
      * Processes all the bot events and read data. This *MUST* be used in your application main loop in
      * order for the bot to function properly. This can be offloaded into another thread to automatically 
-     * read all the data. This function is blocking.
+     * read all the data.
      * Examples:
      * -------------------
      * while (loop()) {}
@@ -151,17 +154,27 @@ public class IRCBot {
     public bool loop() {
         if (!isConnected)
             throw new IllegalStateException("Attempted to process bot data in an unconnected state");
-        char[] chars = new char[0];
+        
+        if (chars is null)
+            chars = new char[0];
         {
             char[] _char = new char[1];
-            while (socket.receive(_char)) {
-                if (_char[0] == '\n')
-                    break;
+            long status = socket.receive(_char);
+
+            // Not sure why it returns ERROR and Successful at the same time
+            if ((status == 0) || (status == Socket.ERROR && socket.getErrorText() == "Success"))
+                return true;
+            else if (status == Socket.ERROR)
+                return false;
+
+            if (_char[0] != '\n') {
                 chars ~= _char;
-            }
+                return true;
+            }                
         }
 
         string line = chars.length ? chop(cast(string) chars) : null;
+        chars = null;
         if (line) {
             auto m = line.match(IRCBot.pattern).captures;
             string[] s = new string[m.length];
