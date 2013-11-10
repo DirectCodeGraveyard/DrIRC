@@ -161,10 +161,10 @@ public class IRCBot {
             char[] _char = new char[1];
             long status = socket.receive(_char);
 
-            // Not sure why it returns ERROR and Successful at the same time
-            if ((status == 0) || (status == Socket.ERROR && socket.getErrorText() == "Success"))
+            // No data was returned from the receive queue
+            if (status == -1)
                 return true;
-            else if (status == Socket.ERROR)
+            else if (status == 0)
                 return false;
 
             if (_char[0] != '\n') {
