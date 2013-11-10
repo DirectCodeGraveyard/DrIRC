@@ -107,6 +107,14 @@ public class IRCBot {
         send(format("NICK %s", config.nickname));
     }
 
+    public bool isInChannel(immutable(char[]) chan) {
+        return getChannel(chan) !is null;
+    }
+
+    public Channel getChannel(immutable(char[]) chan) {
+        return channels[chan];
+    }
+
     /**
      * Completely close the connection from the IRC server rendering the instance useless for further use
      * An optional quit message can be provided
@@ -235,9 +243,8 @@ public class IRCBot {
                 }
                 break;
             case "JOIN":
-                // Disabled until Channel's cache something useful
-                //if ((new User(this, captures[1])).user == currentNick)
-                //    channels[captures[3]] = new Channel(this, captures[3]);
+                if ((new User(this, captures[1])).user == currentNick)
+                    channels[captures[3]] = new Channel(this, captures[3]);
                 _joinChanEventHandler.post(new JoinChanEvent(this, captures[3], captures[1]));
                 break;
             case "PART":
