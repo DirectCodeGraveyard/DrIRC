@@ -164,6 +164,7 @@ public class IRCBot {
             // No data was returned from the receive queue
             if (status == -1)
                 return true;
+            // Connection closed from server
             else if (status == 0)
                 return false;
 
