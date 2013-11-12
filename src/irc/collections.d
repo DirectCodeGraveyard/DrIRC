@@ -6,11 +6,14 @@ public class List(T) {
 
     @property public ulong length() { return realLength; }
     private immutable bool allowDuplicates;
-    private ulong realLength;
     private T[] contents;
 
-    public this(bool allowDuplicates = false) {
+    private ulong relocateLength;
+    private ulong realLength;
+
+    public this(bool allowDuplicates = false, int relocateLength = 10) {
         this.allowDuplicates = allowDuplicates;
+        this.relocateLength = relocateLength;
     }
 
     public bool add(T t) {
@@ -29,7 +32,7 @@ public class List(T) {
 
         if (pos == -1) {
             ulong prevInt = contents.length;
-            contents.length += 10;
+            contents.length += relocateLength;
             pos = prevInt;
         }
         contents[pos] = t;
