@@ -107,11 +107,11 @@ public class IRCBot {
         send(format("NICK %s", config.nickname));
     }
 
-    public bool isInChannel(immutable(char[]) chan) {
+    public bool isInChannel(string chan) {
         return getChannel(chan) !is null;
     }
 
-    public Channel getChannel(immutable(char[]) chan) {
+    public Channel getChannel(string chan) {
         return channels[chan];
     }
 
@@ -119,7 +119,7 @@ public class IRCBot {
      * Completely close the connection from the IRC server rendering the instance useless for further use
      * An optional quit message can be provided
      */
-    public void disconnect(immutable(char[]) msg = "") {
+    public void disconnect(string msg = "") {
         if (!isConnected)
             return;
         send(format("QUIT %s", msg));

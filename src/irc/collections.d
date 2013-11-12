@@ -37,6 +37,10 @@ public class List(T) {
         return true;
     }
 
+    public bool contains(T t) {
+        return contents.countUntil(t) > -1;
+    }
+
     /**
      * Safe collection getter (array-bounds safe)
      */
