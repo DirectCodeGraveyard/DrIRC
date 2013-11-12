@@ -41,6 +41,11 @@ public class List(T) {
         return contents.countUntil(t) > -1;
     }
 
+    public T opOpAssign(string op : "+")(T t) {
+        add(t);
+        return t;
+    }
+
     /**
      * Safe collection getter (array-bounds safe)
      */
