@@ -1,10 +1,12 @@
 module irc.events;
 
 import irc.irc;
+import core.thread;
 import std.signals;
 import std.algorithm;
 import irc.exceptions;
 import irc.collections;
+
 
 public class EventHandler(T : Event) {
 
