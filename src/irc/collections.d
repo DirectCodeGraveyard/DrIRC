@@ -4,14 +4,14 @@ import std.algorithm;
 
 public class List(T) {
 
-    @property public ulong length() { return realLength; }
+    @property public size_t length() { return realLength; }
     private immutable bool allowDuplicates;
     private T[] contents;
 
-    private ulong appendLength;
-    private ulong realLength;
+    private size_t appendLength;
+    private size_t realLength;
 
-    public this(bool allowDuplicates = false, int appendLength = 10) {
+    public this(bool allowDuplicates = false, size_t appendLength = 10) {
         this.allowDuplicates = allowDuplicates;
         this.appendLength = appendLength;
     }
@@ -20,8 +20,8 @@ public class List(T) {
         if (t is null)
             return false;
 
-        long pos = -1;
-        for (long i = 0; i < contents.length; i++) {
+        size_t pos = -1;
+        for (size_t i = 0; i < contents.length; i++) {
             if ((pos == -1) && (contents[i] is null)) {
                 pos = i;
                 if (allowDuplicates)
@@ -31,7 +31,7 @@ public class List(T) {
         }
 
         if (pos == -1) {
-            ulong prevInt = contents.length;
+            size_t prevInt = contents.length;
             contents.length += appendLength;
             pos = prevInt;
         }
@@ -52,13 +52,13 @@ public class List(T) {
     /**
      * Safe collection getter (array-bounds safe)
      */
-    public T get(long i) {
+    public T get(size_t i) {
         if ((i < 0) || (i >= contents.length))
             return null;
         return contents[i];
     }
 
-    public T remove(long i) {
+    public T remove(size_t i) {
         if ((i < 0) || (i >= contents.length))
             return null;
         T temp = contents[i];
@@ -70,7 +70,7 @@ public class List(T) {
     public T remove(T t) {
         if (t is null)
             return null;
-        long index = contents.countUntil(t);
+        size_t index = contents.countUntil(t);
         if (index > -1)
             return remove(index);
         return null;

@@ -29,7 +29,7 @@ public class EventHandler(T : Event) {
         if (length == 0)
             return;
         auto t = new core.thread.Thread(() {
-            for (ulong i = 0; i < length; i++) {
+            for (size_t i = 0; i < length; i++) {
                 auto temp = events[i];
                 if (temp !is null)
                     temp(e);
