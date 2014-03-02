@@ -8,12 +8,12 @@ public class List(T) {
     private immutable bool allowDuplicates;
     private T[] contents;
 
-    private ulong relocateLength;
+    private ulong appendLength;
     private ulong realLength;
 
-    public this(bool allowDuplicates = false, int relocateLength = 10) {
+    public this(bool allowDuplicates = false, int appendLength = 10) {
         this.allowDuplicates = allowDuplicates;
-        this.relocateLength = relocateLength;
+        this.appendLength = appendLength;
     }
 
     public bool add(T t) {
@@ -32,7 +32,7 @@ public class List(T) {
 
         if (pos == -1) {
             ulong prevInt = contents.length;
-            contents.length += relocateLength;
+            contents.length += appendLength;
             pos = prevInt;
         }
         contents[pos] = t;
