@@ -22,20 +22,20 @@ public class List(T) {
 
         long pos = -1;
         for (long i = 0; i < contents.length; i++) {
-            if ((pos == -1) && (contents[i] is null)) {
-                pos = i;
+            if ((cast(uint) pos == -1) && (contents[cast(uint) i] is null)) {
+                pos = cast(long) i;
                 if (allowDuplicates)
                     break;
-            } else if (!allowDuplicates && contents[i] && (contents[i] == t))
+            } else if (!allowDuplicates && contents[cast(uint) i] && (contents[cast(uint) i] == t))
                 return false;
         }
 
         if (pos == -1) {
-            ulong prevInt = contents.length;
-            contents.length += relocateLength;
+            long prevInt = cast(long) contents.length;
+            contents.length += cast(uint) relocateLength;
             pos = prevInt;
         }
-        contents[pos] = t;
+        contents[cast(uint) pos] = t;
         realLength++;
         return true;
     }
@@ -55,14 +55,14 @@ public class List(T) {
     public T get(long i) {
         if ((i < 0) || (i >= contents.length))
             return null;
-        return contents[i];
+        return contents[cast(uint) i];
     }
 
     public T remove(long i) {
-        if ((i < 0) || (i >= contents.length))
+        if ((cast(uint) i < 0) || (i >= contents.length))
             return null;
-        T temp = contents[i];
-        contents[i] = null;
+        T temp = contents[cast(uint) i];
+        contents[cast(uint) i] = null;
         realLength--;
         return temp;
     }
@@ -71,7 +71,7 @@ public class List(T) {
         if (t is null)
             return null;
         long index = contents.countUntil(t);
-        if (index > -1)
+        if (cast(uint) index > -1)
             return remove(index);
         return null;
     }

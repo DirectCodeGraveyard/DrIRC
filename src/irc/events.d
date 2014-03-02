@@ -5,6 +5,7 @@ import std.signals;
 import std.algorithm;
 import irc.exceptions;
 import irc.collections;
+import core.thread;
 
 public class EventHandler(T : Event) {
 
@@ -26,9 +27,9 @@ public class EventHandler(T : Event) {
     public void post(T e, bool join = false) {
         if (length == 0)
             return;
-        auto t = new core.thread.Thread(() {
+        auto t = new Thread(() {
             for (ulong i = 0; i < length; i++) {
-                auto temp = events[i];
+                auto temp = events[cast(uint) i];
                 if (temp !is null)
                     temp(e);
             }
